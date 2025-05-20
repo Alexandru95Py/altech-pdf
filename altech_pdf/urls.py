@@ -1,32 +1,36 @@
-"""
-URL configuration for altech_pdf project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, include
-from .views import HomeView
-
 
 
 urlpatterns = [
-    path('', HomeView.as_view(), name='home'),
+    # Admin
     path('admin/', admin.site.urls),
-    path('split/', include('altech_pdf.split.urls')),
-    path('merge/', include('altech_pdf.merge.urls')),
-    path('delete/', include('altech_pdf.delete.urls')),
-    path('reorder/', include('altech_pdf.reorder.urls')),
+
+    # Home
+    path('', include('altech_pdf.home.urls')),
+    # Basic Plan
+    path('split/', include('altech_pdf.basic_plan.split.urls')),
+    path('merge/', include('altech_pdf.basic_plan.merge.urls')),
+    path('delete/', include('altech_pdf.basic_plan.delete.urls')),
+    path('reorder/', include('altech_pdf.basic_plan.reorder.urls')),
+    path('file/free/', include('file_manager.basic_plan.urls')),
+
+    # Pro Plan
+    path('pro/split/', include('altech_pdf.pro_plan.split.urls')),
+    path('pro/merge/', include('altech_pdf.pro_plan.merge.urls')),
+    path('pro/delete/', include('altech_pdf.pro_plan.delete.urls')),
+    path('pro/reorder/', include('altech_pdf.pro_plan.reorder.urls')),
+    path('file/pro/', include('file_manager.pro_plan.urls')),
+    path('api/protect/', include('ProtectDocument.free_plan.urls', namespace='free')),
+
+    # Autentificare
+    path('auth/', include('custom_auth.urls')),
+
+    # Analytics (opțional, dacă e activ)
     path('analytics/', include('analytics.urls')),
-    path('auth/', include('auth.urls')),
+
+    path('notifications/', include('notifications.urls')),
+    path('support/', include('support.urls')),
+    path('api/myfiles/', include('myfiles.urls.__init__')),
+    
 ]

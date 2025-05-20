@@ -4,10 +4,11 @@ from rest_framework import status
 from .models import UserSession, PDFAction, FeatureUsage, DailyStatistics
 from django .core.files.uploadedfile import SimpleUploadedFile
 
+
 class AnalyticsTests(TestCase):
     def setUp(self):
         self.client = APIClient()
-
+        
     def test_start_session(self):
         response = self.client.post('/analytics/start-session/', {})
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
