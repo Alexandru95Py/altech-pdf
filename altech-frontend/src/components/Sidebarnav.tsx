@@ -26,6 +26,7 @@ const SidebarNav = () => {
               <li><Link to="/support" style={{ color: "white" }}>Suport</Link></li>
               <li><Link to="/about" style={{ color: "white" }}>Despre</Link></li>
               <li><Link to="/ProtectDocument" style={{ color: "white" }}>Protejează Documente</Link></li>
+              <li><Link to="/page/cv" style={{ color: "white" }}>Generează CV</Link></li>
 
               {/* Buton AI fancy */}
               <li style={{ marginTop: "2rem" }}>

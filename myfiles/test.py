@@ -3,13 +3,19 @@ from rest_framework.test import APITestCase
 from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import SimpleUploadedFile
 from myfiles.models import PDFFile
+from rest_framework_simplejwt.tokens import RefreshToken
 
 User = get_user_model()
 
 class MyFilesTests(APITestCase):
     def setUp(self):
-        self.user = User.objects.create_user(email="pro@example.com", password="test1234")
-        self.client.login(email="pro@example.com", password="test1234")
+        self.user = get_user_model().objects.create_user(
+            email="pro@example.com",
+            password="test1234"
+        )
+
+        refresh = RefreshToken.for_user(self.user)
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {str(refresh.access_token)}')
         self.upload_url = "/api/myfiles/base/upload/"
     
     def get_delete_url(self, file_id):

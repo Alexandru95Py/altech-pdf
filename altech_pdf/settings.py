@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'analytics',
     'analytics.feature_usage',
     'analytics.user_activity',
+    'create_pdf',
+    'cv_generator',
     'notifications',
     'support',
     'rest_framework',
@@ -159,7 +161,10 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+AUTHENTICATION_BACKENDS = [
+    'custom_auth.backends.EmailBackend',  # ✅ Backendul tău scris de tine
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 DEFAULT_FROM_EMAIL = 'no-reply@altechpdf.com'
 

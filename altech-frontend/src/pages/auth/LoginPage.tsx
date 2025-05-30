@@ -48,7 +48,7 @@ const LoginPage = () => {
       console.log("RESPONSE LOGIN:", response.data); // <== DEBUG
 
       if (response.data.access) {
-        localStorage.setItem('access', response.data.access);
+        localStorage.setItem('access_token', response.data.access);
         login(response.data.access); // actualizează contextul
         setMessage('Login successful!');
         navigate('/home');

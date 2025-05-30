@@ -28,9 +28,16 @@ urlpatterns = [
 
     # Analytics (opțional, dacă e activ)
     path('analytics/', include('analytics.urls')),
+    
+    path('api/cv/', include('cv_generator.urls')),
 
     path('notifications/', include('notifications.urls')),
     path('support/', include('support.urls')),
     path('api/myfiles/', include('myfiles.urls.__init__')),
+
+    path('api/create/free/', include('create_pdf.urls.urls_free')),
+    path('api/create/pro/', include('create_pdf.urls.urls_pro', namespace='create_pdf')),
+    path('api/create/ai/', include('create_pdf.urls.urls_ai')),
+    
     
 ]

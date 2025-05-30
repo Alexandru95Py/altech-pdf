@@ -36,3 +36,15 @@ htmlcov/
 
 # Backup files
 *.bak
+
+
+.env
+*.env
+
+
+.DS_Store
+Thumbs.db
+
+
+node_modules/
+dist/
