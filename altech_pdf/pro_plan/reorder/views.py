@@ -1,5 +1,7 @@
 import os
 import uuid
+from functools import wraps
+from django.http import JsonResponse
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -8,16 +10,18 @@ from rest_framework import status
 from .serializers import ReorderPDFSerializer
 from .utils import reorder_pdf
 
+
 from django.http import HttpResponseForbidden
 
 def pro_required(view_func):
-    def wrapper(request, *args, **kwargs):
+    @wraps(view_func)
+    def wrapper(self, request, *args, **kwargs):
         user = request.user
         if not user.is_authenticated:
-            return HttpResponseForbidden("Autentificare necesară.")
-        if not hasattr(user, 'profile') or user.profile.plan != 'pro':
-            return HttpResponseForbidden("Acces permis doar utilizatorilor cu plan Pro.")
-        return view_func(request, *args, **kwargs)
+            return JsonResponse({"error": "Autentificare necesară."}, status=403)
+        if getattr(user, 'plan', None) != 'pro':
+            return JsonResponse({"error": "Acces permis doar utilizatorilor cu plan Pro."}, status=403)
+        return view_func(self, request, *args, **kwargs)
     return wrapper
 
 class ReorderPDFView(APIView):

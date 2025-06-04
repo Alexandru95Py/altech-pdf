@@ -54,6 +54,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework_simplejwt',
     'custom_auth.apps.AuthConfig',
+    'django_extensions',  
+    'fill_and_sign',
     
 
       # Custom auth app

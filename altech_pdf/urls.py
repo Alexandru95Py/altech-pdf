@@ -6,22 +6,19 @@ urlpatterns = [
     # Admin
     path('admin/', admin.site.urls),
 
+    #File_manager
+    path('file/', include('file_manager.urls')),
+
+    #Fill and sign
+    path('fill-and-sign/', include(('fill_and_sign.urls'), namespace='fill-and-sign')),
     # Home
     path('', include('altech_pdf.home.urls')),
+   
     # Basic Plan
-    path('split/', include('altech_pdf.basic_plan.split.urls')),
-    path('merge/', include('altech_pdf.basic_plan.merge.urls')),
-    path('delete/', include('altech_pdf.basic_plan.delete.urls')),
-    path('reorder/', include('altech_pdf.basic_plan.reorder.urls')),
-    path('file/free/', include('file_manager.basic_plan.urls')),
+    path('basic/', include('altech_pdf.basic_plan.urls')),
 
     # Pro Plan
-    path('pro/split/', include('altech_pdf.pro_plan.split.urls')),
-    path('pro/merge/', include('altech_pdf.pro_plan.merge.urls')),
-    path('pro/delete/', include('altech_pdf.pro_plan.delete.urls')),
-    path('pro/reorder/', include('altech_pdf.pro_plan.reorder.urls')),
-    path('file/pro/', include('file_manager.pro_plan.urls')),
-    path('api/protect/', include('ProtectDocument.free_plan.urls', namespace='free')),
+    path('pro/', include('altech_pdf.pro_plan.urls')),
 
     # Autentificare
     path('auth/', include('custom_auth.urls')),

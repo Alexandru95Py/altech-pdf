@@ -3,6 +3,10 @@ from django.http import JsonResponse
 
 def free_or_pro_required(view_func):
     def wrapper(request, *args, **kwargs):
+        print("== DEBUG DECORATOR ==")
+        print("Request user:", request.user)
+        print("Este autentificat:", request.user.is_authenticated)
+        print("Are atribut plan?:", hasattr(request.user, "plan"))
         user = request.user
 
         # Verifică dacă utilizatorul este autentificat

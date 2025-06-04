@@ -7,9 +7,12 @@ from rest_framework import status
 
 from .serializers import DeletePagesSerializer
 from .utils import delete_pages_from_pdf
+from rest_framework.permissions import IsAuthenticated
 
 
 class DeletePagesView(APIView):
+    permission_classes = [IsAuthenticated] 
+     # Asigură-te că utilizatorul este autentificat
     def post(self, request):
         serializer = DeletePagesSerializer(data=request.data)
 

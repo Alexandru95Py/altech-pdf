@@ -1,35 +1,27 @@
-import os
-import uuid
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-
 from .serializers import MergePDFSerializer
-from .utils import merge_pdfs
-
+from altech_pdf.pro_plan.merge.utils import merge_pdfs
 from django.http import HttpResponseForbidden
-
-def pro_required(view_func):
-    def wrapper(request, *args, **kwargs):
-        user = request.user
-        if not user.is_authenticated:
-            return HttpResponseForbidden("Autentificare necesară.")
-        if not hasattr(user, 'profile') or user.profile.plan != 'pro':
-            return HttpResponseForbidden("Acces permis doar utilizatorilor cu plan Pro.")
-        return view_func(request, *args, **kwargs)
-    return wrapper
+from rest_framework.permissions import IsAuthenticated
+import os
+import uuid
 
 class MergePDFView(APIView):
-    @pro_required
+    permission_classes = [IsAuthenticated]
+
     def post(self, request):
+        user = request.user
+
+        # În etapa actuală, nu verificăm planul Pro
         data = request.data.copy()
-        data.setlist('files', request.FILES.getlist('files'))
+        data['files'] = request.FILES.getlist('files')
 
         serializer = MergePDFSerializer(data=data)
+
         if serializer.is_valid():
             files = serializer.validated_data['files']
-
             output_filename = f"merged_{uuid.uuid4().hex}.pdf"
             output_path = os.path.join("media", output_filename)
             os.makedirs("media", exist_ok=True)

@@ -3,16 +3,25 @@ from io import BytesIO
 from PyPDF2 import PdfWriter
 from django.core.files.uploadedfile import SimpleUploadedFile
 from reportlab.pdfgen import canvas
+import uuid
+from django.contrib.auth import get_user_model
 
 
 
-def create_test_user(plan="free", is_active=True):
-    return CustomUser.objects.create_user(
-        email="test@example.com",
-        password="testpassword123",
-        plan=plan,
-        is_active=is_active
-    )
+def create_test_user(email=None, password="testpass", plan="pro", is_active=True):
+    User = get_user_model()
+    
+    if email is None:
+        email = f"test_{uuid.uuid4().hex[:8]}@example.com"  # email unic
+    
+    user = User.objects.create_user(email=email, password=password, is_active=is_active)
+    
+    # Planul e direct pe user
+    if hasattr(user, 'plan'):
+        user.plan = plan
+        user.save()
+
+    return user
 
 def generate_test_pdf(filename="test.pdf"):
     buffer = BytesIO()
